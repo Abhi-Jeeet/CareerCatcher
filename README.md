@@ -12,7 +12,7 @@ CareerCatcher is a full-stack web application designed to connect recruiters and
 - **Job Seeker Features**:
   - Browse available job listings
   - Apply directly to job openings
-  - Track application status (e.g., Pending, Interviewing, Accepted, Rejected)
+  - Track application status (e.g., Pending, Accepted, Rejected)
 
 - **Authentication & Authorization**:
   - Secure login and user profile management via [Clerk](https://clerk.dev)
@@ -30,5 +30,5 @@ CareerCatcher is a full-stack web application designed to connect recruiters and
 - **Database**: MongoDB
 - **Authentication**: Clerk
 - **Image/File Upload**: Cloudinary
-- **Deployment**: (Add any deployment platform here like Heroku, Vercel, or AWS if applicable)
+- **Deployment**: Vercel
 
