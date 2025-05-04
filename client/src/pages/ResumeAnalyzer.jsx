@@ -46,8 +46,11 @@ const ResumeAnalyzer = () => {
         const apiRoles = Array.isArray(res.data) ? res.data : [];
         const defaultRoles = [
           "Software Engineer",
-          "Web Developer",
-          "Frontend Engineer",
+          "Data Scientist",
+          "Product Manager",
+          "UX Designer",
+          "Marketing Manager",
+          "Business Analyst"
         ];
         const combinedRoles = [...new Set([...defaultRoles, ...apiRoles])];
         setRoles(combinedRoles);
