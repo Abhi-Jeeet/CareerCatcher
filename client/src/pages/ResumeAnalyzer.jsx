@@ -156,7 +156,7 @@ const ResumeAnalyzer = () => {
                   ? "You have unlimited analyses available."
                   : `You have ${
                       3 - (userData?.analysisCount || 0)
-                    } free analyses remaining this month. Upgrade your account for unlimited analyses.`}
+                    } free analyses.`}
               </p>
             </div>
           </div>
