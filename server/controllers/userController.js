@@ -77,21 +77,30 @@ export const getUserJobApplications = async(req, res)=>{
 export const updateUserResume = async(req, res)=>{
     try {
         const userId = req.auth.userId
-
         const resumeFile = req.file
         const userData = await User.findById(userId)
 
-        if(resumeFile){
-            const resumeUpload = await cloudinary.uploader.upload(resumeFile.path) 
-
-            userData.resume = resumeUpload.secure_url
-
+        if(!resumeFile){
+            return res.json({success:false, message:"Please upload a resume file"})
         }
+
+        // Convert buffer to base64
+        const base64String = resumeFile.buffer.toString('base64')
+        const dataUri = `data:${resumeFile.mimetype};base64,${base64String}`
+
+        // Upload to Cloudinary
+        const resumeUpload = await cloudinary.uploader.upload(dataUri, {
+            resource_type: 'auto',
+            folder: 'resumes'
+        })
+
+        userData.resume = resumeUpload.secure_url
         await userData.save()
 
         return res.json({success:true, message:"Resume updated successfully"})
         
     } catch (error) {
+        console.error('Resume upload error:', error)
         res.json({success:false, message:error.message})
     }
 }

@@ -47,7 +47,7 @@ const ApplyJobs = () => {
       }
       const token = await getToken()
 
-      const {data} = await axios.post(backendUrl+'/api/users/apply',
+      const {data} = await axios.post(backendUrl+'/api/users/apply-job',
         {jobId: jobData._id},
         {headers:{Authorization: `Bearer ${token}`}}
       )
@@ -58,10 +58,9 @@ const ApplyJobs = () => {
       else{
         toast.error(data.message)
       }
-
-      
     } catch (error) {
-      toast.error(error.message)
+      console.error('Job application error:', error)
+      toast.error(error.response?.data?.message || 'Failed to apply for job')
     }
   }
 
