@@ -24,8 +24,11 @@ const ResumeAnalyzer = () => {
   const [role, setRole] = useState("");
   const [roles, setRoles] = useState([
     "Software Engineer",
-    "Web Developer",
-    "Frontend Engineer",
+  "Data Scientist",
+  "Product Manager",
+  "UX Designer",
+  "Marketing Manager",
+  "Business Analyst"
   ]);
   const [analysis, setAnalysis] = useState("");
   const [loading, setLoading] = useState(false);
