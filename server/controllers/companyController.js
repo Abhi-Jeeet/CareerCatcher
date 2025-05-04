@@ -112,7 +112,7 @@ export const postJob = async(req, res)=>{
     
 }
 
-//Get comapny job applicants
+//Get company job applicants
 export const getCompanyJobApplicants = async(req, res)=>{
     try {
         const companyId = req.company._id

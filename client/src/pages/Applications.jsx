@@ -80,7 +80,7 @@ useEffect(()=>{
       <table className='min-w-full bg-white border rounded-lg'>
         <thead>
           <tr>
-            <th className='py-3 px-4 border-b text-left'>Comapny</th>
+            <th className='py-3 px-4 border-b text-left'>Company</th>
             <th className='py-3 px-4 border-b text-left'>Job Title </th>
             <th className='py-3 px-4 border-b text-left max-sm:hidden'>Location</th>
             <th className='py-3 px-4 border-b text-left max-sm:hidden'>Date</th>
