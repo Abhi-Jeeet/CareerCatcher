@@ -12,6 +12,7 @@ import ViewApplications from './pages/ViewApplications'
 import 'quill/dist/quill.snow.css'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import ResumeAnalyzer from './pages/ResumeAnalyzer'
 
 const App = () => {
   const { showRecruiterLogin, companyToken } = useContext(AppContext)
@@ -23,6 +24,7 @@ const App = () => {
         <Route path='/' element={<Home />} />
         <Route path='/apply-job/:id' element={<ApplyJobs />} />
         <Route path='/applications' element={<Applications />} />
+        <Route path='/resume-analyzer' element={<ResumeAnalyzer />} />
         <Route path='/dashboard' element={<Dashboard />}>
           {
             companyToken ? <>

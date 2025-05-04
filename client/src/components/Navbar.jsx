@@ -20,6 +20,8 @@ const Navbar
                 ? <div className='flex items-center gap-3'>
                     <Link to={"/applications"}>Applied Jobs</Link>
                     <p></p>
+                    <Link to={"/resume-analyzer"}>Resume Analyzer</Link>
+                    <p></p>
                     <p className='max-sm:hidden'>Hii, {user.firstName +" "+user.lastName }</p>
                     <UserButton/>
                 </div>

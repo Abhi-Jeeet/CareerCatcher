@@ -1,5 +1,5 @@
 import express from "express";
-import { applyForJob, getUserData, getUserJobApplications, updateUserResume } from "../controllers/userController.js";
+import { applyForJob, getUserData, getUserJobApplications, updateUserResume, analyzeResume } from "../controllers/userController.js";
 import upload from "../config/multer.js";
 
 const router = express.Router();
@@ -7,14 +7,16 @@ const router = express.Router();
 //get user data
 router.get('/user', getUserData)
 
-//Apply for a job
-router.post('/apply', applyForJob)
+//get user job applications
+router.get('/job-applications', getUserJobApplications)
 
-//get applied jobs data
-router.get('/applications', getUserJobApplications)
+//apply for job
+router.post('/apply-job', applyForJob)
 
 //update user profile resume
 router.post('/update-resume', upload.single('resume'), updateUserResume)
 
+//analyze resume
+router.post('/analyze-resume', upload.single('resume'), analyzeResume)
 
 export default router;
