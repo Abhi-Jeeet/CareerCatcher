@@ -23,6 +23,10 @@ const RecruiterLogin = () => {
         if(state=='Sign Up' && !isTextDataSubmited){
             return setIsTextDataSubmited(true)
         }
+        if(state === 'Sign Up' && isTextDataSubmited && !image){
+            toast.error('Please upload a company logo!');
+            return;
+        }
         try {
             if(state=== "Login"){
                 const {data} = await axios.post(backendUrl + '/api/company/login',{email, password})
@@ -82,7 +86,7 @@ const RecruiterLogin = () => {
                     <img className='w-16 rounded-full' src={image ? URL.createObjectURL(image):assets.upload_area} alt="" />
                     <input onChange={e=>setImage(e.target.files[0])} type="file" id='image' hidden />
                 </label>
-                <p>Upload Company <br />logo</p>
+                <p>Upload Company <br />logo <span className='text-red-500'>*</span></p>
             </div>
             </>
             : <>
