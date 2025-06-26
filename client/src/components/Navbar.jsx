@@ -18,9 +18,13 @@ const Navbar
             {
                 user
                 ? <div className='flex items-center gap-3'>
+                    <Link to={"/"}>Home</Link>
+                    <p></p>
                     <Link to={"/applications"}>Applied Jobs</Link>
                     <p></p>
                     <Link to={"/resume-analyzer"}>Resume Analyzer</Link>
+                    <p></p>
+                    <Link to={"/cover-letter"}>Cover Letter</Link>
                     <p></p>
                     <p className='max-sm:hidden'>Hii, {user.firstName +" "+user.lastName }</p>
                     <UserButton/>
