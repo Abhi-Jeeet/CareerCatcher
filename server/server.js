@@ -10,6 +10,7 @@ import jobRoutes from './routes/jobRoutes.js'
 import userRoutes from './routes/userRoutes.js'
 import {clerkMiddleware} from '@clerk/express'
 import resumeAnalyzerRoutes from './routes/resumeAnalyzerRoutes.js'
+import coverLetterRoutes from './routes/coverLetter.js'
 
 
 const app = express();
@@ -32,6 +33,7 @@ app.use('/api/company', companyRoutes)
 app.use('/api/jobs', jobRoutes)
 app.use('/api/users', userRoutes)
 app.use('/api', resumeAnalyzerRoutes);
+app.use('/api', coverLetterRoutes);
 
 
 //Port
