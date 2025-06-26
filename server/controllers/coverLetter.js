@@ -1,14 +1,10 @@
 import pdfParse from "pdf-parse/lib/pdf-parse.js";
-import { CohereClient } from "cohere-ai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 import User from "../models/User.js";
-
-// Initialize Cohere
-const cohere = new CohereClient({
-    token: process.env.COHERE_COVER_LETTER_API_KEY,
-});
 
 // POST /api/cover-letter/generate
 export const generateCoverLetter = async (req, res) => {
+    console.time('generateCoverLetter');
     try {
         console.log('Cover letter generation request:', req.body);
         console.log('Request file:', req.file);
@@ -55,7 +51,9 @@ export const generateCoverLetter = async (req, res) => {
 
         // Parse PDF
         const pdfBuffer = req.file.buffer;
+        console.time('pdfParse');
         const pdfData = await pdfParse(pdfBuffer);
+        console.timeEnd('pdfParse');
         const resumeText = pdfData.text;
 
         // For now, use placeholders for user info
@@ -68,22 +66,15 @@ export const generateCoverLetter = async (req, res) => {
         const todayObj = new Date();
         const today = `${String(todayObj.getDate()).padStart(2, '0')}/${String(todayObj.getMonth() + 1).padStart(2, '0')}/${todayObj.getFullYear()}`;
 
-        // Generate cover letter using Cohere
-        const response = await cohere.generate({
-            model: 'command',
-            prompt: `You are a professional cover letter writer. Write ONLY the body of a compelling, professional cover letter (do not include any header or salutation). Use proper paragraph structure (not a single block of text). Use the following information to tailor the letter for the job application. Highlight relevant skills and experiences from the resume, show enthusiasm for the specific role and company, keep it concise but comprehensive (300-500 words), use a professional tone, and mention the specific company name, job title, and job ID. Do NOT repeat the header info in the body.\n\nCompany Name: {companyName}\nJob Title: {jobTitle}\nJob ID: {jobId}\n\nResume Content:\n{resumeText}\n\nCover Letter Body:`
-                .replace('{companyName}', companyName)
-                .replace('{jobTitle}', jobTitle)
-                .replace('{jobId}', jobId)
-                .replace('{resumeText}', resumeText),
-            maxTokens: 1000,
-            temperature: 0.7,
-            k: 0,
-            stopSequences: [],
-            returnLikelihoods: 'NONE'
-        });
-
-        const aiBody = response.generations[0].text.trim();
+        // Generate cover letter using Gemini
+        const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+        const model = genAI.getGenerativeModel({ model: "models/gemini-1.5-flash" });
+        const prompt = `You are a professional cover letter writer. Write ONLY the body of a compelling, professional cover letter (do not include any header or salutation). Use proper paragraph structure (not a single block of text). Use the following information to tailor the letter for the job application. Highlight relevant skills and experiences from the resume, show enthusiasm for the specific role and company, keep it concise but comprehensive (300-500 words), use a professional tone, and mention the specific company name, job title, and job ID. Do NOT repeat the header info in the body.\n\nCompany Name: ${companyName}\nJob Title: ${jobTitle}\nJob ID: ${jobId}\n\nResume Content:\n${resumeText}\n\nCover Letter Body:`;
+        console.time('geminiAPI');
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        const aiBody = response.text().trim();
+        console.timeEnd('geminiAPI');
 
         // Compose the final cover letter with the requested header
         const coverLetter = `${userName}\n${userEmail} | ${userPhone}\nLinkedIn: ${userLinkedIn}\nGitHub: ${userGithub}\n${today}\n\nDear Hiring Manager,\n\n${aiBody}\n\nSincerely,\n${userName}`;
@@ -94,6 +85,7 @@ export const generateCoverLetter = async (req, res) => {
             await user.save();
         }
 
+        console.timeEnd('generateCoverLetter');
         res.status(200).json({
             success: true,
             message: 'Cover letter generated successfully',
@@ -104,6 +96,7 @@ export const generateCoverLetter = async (req, res) => {
 
     } catch (error) {
         console.error('Error generating cover letter:', error);
+        console.timeEnd('generateCoverLetter');
         res.status(500).json({ success: false, message: error.message });
     }
 };

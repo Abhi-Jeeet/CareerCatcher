@@ -1,5 +1,5 @@
 import pdfParse from "pdf-parse/lib/pdf-parse.js";
-import { CohereClient } from "cohere-ai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 // Hardcoded roles (or fetch from DB if needed)
 const AVAILABLE_ROLES = [
@@ -18,6 +18,7 @@ export const getRoles = (req, res) => {
 
 // POST /api/analyze
 export const analyzeResume = async (req, res) => {
+  console.time('analyzeResume');
   try {
     if (!req.file) {
       return res.status(400).json({ error: "No file uploaded" });
@@ -28,46 +29,34 @@ export const analyzeResume = async (req, res) => {
 
     // Parse PDF
     const pdfBuffer = req.file.buffer;
+    console.time('pdfParse');
     const pdfData = await pdfParse(pdfBuffer);
+    console.timeEnd('pdfParse');
     const resumeText = pdfData.text;
 
-    // Cohere API
-    const cohere = new CohereClient({
-      token: process.env.COHERE_RESUME_ANALYSER_API_KEY,
-    });
+    // Gemini API
+    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+    const model = genAI.getGenerativeModel({ model: "models/gemini-1.5-flash" });
 
-    const prompt = `Analyze the following resume ONLY for the role of: ${req.body.role}.
+    // Optimized, concise prompt
+    const prompt = `Analyze this resume for the role of ${req.body.role}.
+Start with: Overall Score: X/10.
+Then list:
+- Key strengths
+- Areas for improvement
+- Specific recommendations
+No markdown or asterisks. Use plain text or dashes.
 
-Instructions:
-- Your response MUST start with: Overall Score: X/10 (where X is a number from 0 to 10)
-- Carefully compare the resume to the requirements and typical skills of a ${req.body.role} position.
-- If the resume is NOT a good fit for the selected role, give a LOW score (e.g., 2-5/10) and clearly explain why in your analysis.
-- If the resume is a strong fit for the selected role, give a high score and explain why.
-- Example: If the resume is for a Software Engineer but the selected role is UX Designer, the score should be low (e.g., 2/10), and the analysis should explain the mismatch.
-- Do NOT use 'Not specified' or 'N/A'. If unsure, estimate a score based on the fit for the SELECTED ROLE ONLY.
-- Then provide:
-  1. Key strengths
-  2. Areas for improvement
-  3. Specific recommendations
-- Do not use asterisks (*) or markdown-style bullets. Instead, use plain text or dashes if needed.
-
-Resume content:
+Resume:
 ${resumeText}`;
 
-    const response = await cohere.generate({
-      model: 'command',
-      prompt,
-      maxTokens: 800,
-      temperature: 0.5,
-      k: 0,
-      stopSequences: [],
-      returnLikelihoods: 'NONE',
-    });
-
-    const analysisText = response.generations[0].text;
+    console.time('geminiAPI');
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    const analysisText = response.text();
+    console.timeEnd('geminiAPI');
 
     // Parse the analysis text into structured format (same as before)
-    // Extract score using multiple patterns
     const cleanText = analysisText
       .replace(/\*/g, '')
       .replace(/^\s*[-•]\s*/gm, '')
@@ -107,9 +96,11 @@ ${resumeText}`;
         .filter(line => line) || []
     };
 
+    console.timeEnd('analyzeResume');
     res.json({ analysis });
   } catch (error) {
     console.error("Error analyzing resume:", error);
+    console.timeEnd('analyzeResume');
     res.status(500).json({ error: "Error analyzing resume" });
   }
 };
