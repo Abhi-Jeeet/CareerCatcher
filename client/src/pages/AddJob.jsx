@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react'
-import 'quill/dist/quill.snow.css'
 import Quill from 'quill'
 import { JobCategories, JobLocations } from '../assets/assets'
 import axios from 'axios'

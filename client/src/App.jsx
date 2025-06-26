@@ -1,14 +1,15 @@
 import React, { useContext, Suspense, lazy } from 'react'
 import { Route, Routes } from 'react-router-dom'
-import RecruiterLogin from './components/RecruiterLogin'
 import { AppContext } from './context/AppContext'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import 'quill/dist/quill.snow.css'
 
-// Lazy load all pages
+// Lazy load components
 const Home = lazy(() => import('./pages/Home'))
 const ApplyJobs = lazy(() => import('./pages/ApplyJobs'))
 const Applications = lazy(() => import('./pages/Applications'))
+const RecruiterLogin = lazy(() => import('./components/RecruiterLogin'))
 const Dashboard = lazy(() => import('./pages/Dashboard'))
 const AddJob = lazy(() => import('./pages/AddJob'))
 const ManageJobs = lazy(() => import('./pages/ManageJobs'))
@@ -27,7 +28,11 @@ const App = () => {
   const { showRecruiterLogin, companyToken } = useContext(AppContext)
   return (
     <div>
-      {showRecruiterLogin && <RecruiterLogin />}
+      {showRecruiterLogin && (
+        <Suspense fallback={<LoadingSpinner />}>
+          <RecruiterLogin />
+        </Suspense>
+      )}
       <ToastContainer />
       <Suspense fallback={<LoadingSpinner />}>
         <Routes>
