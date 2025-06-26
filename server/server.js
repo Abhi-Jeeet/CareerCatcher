@@ -19,12 +19,33 @@ const app = express();
 await connectDB()
 await connectCloudinary()
 
+// CORS configuration for Vercel deployment
+const corsOptions = {
+  origin: [
+    'https://career-catcher-client1.vercel.app',
+    'http://localhost:5173',
+    'http://localhost:3000'
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'token', 'X-Requested-With'],
+  optionsSuccessStatus: 200
+};
 
 //Middlewares
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(clerkMiddleware());
 
+// Debugging middleware for CORS issues
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.path} - Origin: ${req.headers.origin}`);
+  console.log('Headers:', req.headers);
+  next();
+});
+
+// Handle OPTIONS requests for CORS preflight
+app.options('*', cors(corsOptions));
 
 //Routes
 app.get('/', (req, res) => res.send("Api working"))
@@ -39,6 +60,28 @@ app.use('/api', coverLetterRoutes);
 //Port
 const PORT = process.env.PORT || 5000;
 
+// Increase timeout for serverless functions
+app.use((req, res, next) => {
+  res.setTimeout(30000, () => {
+    res.status(408).json({ error: 'Request timeout' });
+  });
+  next();
+});
+
+// Global error handler
+app.use((err, req, res, next) => {
+  console.error('Error:', err);
+  res.status(500).json({ 
+    error: 'Internal server error',
+    message: err.message,
+    stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
+  });
+});
+
+// 404 handler
+app.use('*', (req, res) => {
+  res.status(404).json({ error: 'Route not found' });
+});
 
 app.listen(PORT,()=>{
     console.log(`Server is running on port ${PORT}`)

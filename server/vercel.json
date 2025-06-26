@@ -1,5 +1,10 @@
 {
     "version": 2,
+    "functions": {
+        "server.js": {
+            "maxDuration": 30
+        }
+    },
     "builds": [
         {
             "src": "server.js",
@@ -14,7 +19,13 @@
     "routes": [
         {
             "src": "/(.*)",
-            "dest": "server.js"
+            "dest": "server.js",
+            "headers": {
+                "Access-Control-Allow-Origin": "https://career-catcher-client1.vercel.app",
+                "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+                "Access-Control-Allow-Headers": "Content-Type, Authorization, token, X-Requested-With",
+                "Access-Control-Allow-Credentials": "true"
+            }
         }
     ]
 }
