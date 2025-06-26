@@ -318,7 +318,7 @@ const CoverLetter = () => {
                   style={{ minHeight: 120 }}
                 >
                   <CloudUploadIcon sx={{ fontSize: 48, color: dragActive ? '#fb923c' : '#f59e42', mb: 1 }} />
-                  <p className="text-gray-600 mb-2">{file ? file.name : 'Drag & drop your PDF here, or click to select'}</p>
+                  <p className="text-gray-600 mb-2">{file ? file.name : 'Drag & drop your Resume here, or click to select your Resume'}</p>
                   <input
                     id="resume-upload"
                     type="file"

@@ -255,7 +255,7 @@ const ResumeAnalyzer = () => {
                   style={{ minHeight: 120 }}
                 >
                   <CloudUploadIcon sx={{ fontSize: 48, color: dragActive ? '#fb923c' : '#f59e42', mb: 1 }} />
-                  <p className="text-gray-600 mb-2">{file ? file.name : 'Drag & drop your PDF here, or click to select'}</p>
+                  <p className="text-gray-600 mb-2">{file ? file.name : 'Drag & drop your Resume here, or click to select your Resume'}</p>
                   <input
                     id="resume-upload"
                     type="file"
@@ -354,60 +354,6 @@ const ResumeAnalyzer = () => {
               >
                 Resume Analysis
               </Typography>
-            </div>
-            <div className="flex items-center gap-2">
-              <IconButton
-                onClick={handleCopyToClipboard}
-                sx={{
-                  backgroundColor: "rgba(251, 146, 60, 0.1)",
-                  color: "#ea580c",
-                  "&:hover": {
-                    backgroundColor: "rgba(251, 146, 60, 0.2)",
-                    transform: "scale(1.05)",
-                  },
-                  transition: "all 0.2s ease-in-out",
-                }}
-              >
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
-                  />
-                </svg>
-              </IconButton>
-              <IconButton
-                onClick={handleCloseModal}
-                sx={{
-                  backgroundColor: "rgba(239, 68, 68, 0.1)",
-                  color: "#ef4444",
-                  "&:hover": {
-                    backgroundColor: "rgba(239, 68, 68, 0.2)",
-                    transform: "scale(1.05)",
-                  },
-                  transition: "all 0.2s ease-in-out",
-                }}
-              >
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </IconButton>
             </div>
           </DialogTitle>
           <DialogContent

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { assets } from '../assets/assets'
 import { useClerk, UserButton, useUser } from '@clerk/clerk-react'
-import { Link, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { AppContext } from '../context/AppContext';
 
 const Navbar
@@ -18,13 +18,53 @@ const Navbar
             {
                 user
                 ? <div className='flex items-center gap-3'>
-                    <Link to={"/"}>Home</Link>
+                    <NavLink
+                      to="/"
+                      className={({ isActive }) =>
+                        "px-3 py-1 rounded-md font-semibold transition " +
+                        (isActive
+                          ? "bg-orange-100 text-orange-700"
+                          : "text-orange-600 hover:bg-orange-100")
+                      }
+                    >
+                      Home
+                    </NavLink>
                     <p></p>
-                    <Link to={"/applications"}>Applied Jobs</Link>
+                    <NavLink
+                      to="/applications"
+                      className={({ isActive }) =>
+                        "px-3 py-1 rounded-md font-semibold transition " +
+                        (isActive
+                          ? "bg-orange-100 text-orange-700"
+                          : "text-orange-600 hover:bg-orange-100")
+                      }
+                    >
+                      Applied Jobs
+                    </NavLink>
                     <p></p>
-                    <Link to={"/resume-analyzer"}>Resume Analyzer</Link>
+                    <NavLink
+                      to="/resume-analyzer"
+                      className={({ isActive }) =>
+                        "px-3 py-1 rounded-md font-semibold transition " +
+                        (isActive
+                          ? "bg-orange-100 text-orange-700"
+                          : "text-orange-600 hover:bg-orange-100")
+                      }
+                    >
+                      Resume Analyzer
+                    </NavLink>
                     <p></p>
-                    <Link to={"/cover-letter"}>Cover Letter</Link>
+                    <NavLink
+                      to="/cover-letter"
+                      className={({ isActive }) =>
+                        "px-3 py-1 rounded-md font-semibold transition " +
+                        (isActive
+                          ? "bg-orange-100 text-orange-700"
+                          : "text-orange-600 hover:bg-orange-100")
+                      }
+                    >
+                      Cover Letter Creator
+                    </NavLink>
                     <p></p>
                     <p className='max-sm:hidden'>Hii, {user.firstName +" "+user.lastName }</p>
                     <UserButton/>
