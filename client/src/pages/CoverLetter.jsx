@@ -206,7 +206,7 @@ const CoverLetter = () => {
           </p>
           
           {/* Google Gemini AI Badge */}
-          <div className="flex items-center justify-center gap-2 bg-white rounded-full px-4 py-2 shadow-md border border-gray-200">
+          <div className="flex items-center justify-center gap-2 bg-white rounded-full px-4 py-2 shadow-md border border-gray-200 inline-flex">
             <img src={geminiLogo} alt="Google Gemini Logo" style={{ width: 24, height: 24 }} />
             <span className="text-sm font-medium text-gray-700">Powered by Google Gemini</span>
           </div>
