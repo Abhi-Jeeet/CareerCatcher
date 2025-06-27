@@ -88,7 +88,8 @@ useEffect(()=>{
           </tr>
         </thead>
         <tbody>
-          {userApplications.map((job,index)=>true ?(
+          {userApplications.map((job,index)=>(
+            job.jobId && job.companyId ? (
             <tr key={index}>
               <td className='py-3 px-4 flex items-center gap-2 border-b'>
                 <img className='w-8 h-8' src={job.companyId.image} alt="" />
@@ -103,7 +104,13 @@ useEffect(()=>{
                 </span>
                 </td>
             </tr>
-          ): (null))}
+          ) : (
+            <tr key={index}>
+              <td className='py-3 px-4 border-b text-gray-500' colSpan="5">
+                Job or company information unavailable
+              </td>
+            </tr>
+          )))}
         </tbody>
       </table>
     </div>

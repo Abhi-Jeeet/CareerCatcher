@@ -63,7 +63,7 @@ const Navbar
                           : "text-orange-600 hover:bg-orange-100")
                       }
                     >
-                      Cover Letter Creator
+                      Cover Letter Generator
                     </NavLink>
                     <p></p>
                     <p className='max-sm:hidden'>Hii, {user.firstName +" "+user.lastName }</p>

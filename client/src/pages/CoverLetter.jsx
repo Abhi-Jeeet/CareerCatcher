@@ -198,7 +198,7 @@ const CoverLetter = () => {
               </svg>
             </div>
             <h2 className="text-3xl font-bold text-orange-600">
-              Cover Letter Creator
+              Cover Letter Generator
             </h2>
           </div>
           <p className="text-gray-600 max-w-2xl mx-auto mb-6">
@@ -206,7 +206,7 @@ const CoverLetter = () => {
           </p>
           
           {/* Google Gemini AI Badge */}
-          <div className="flex items-center justify-center gap-2 bg-white rounded-full px-4 py-2 shadow-md border border-gray-200 inline-flex">
+          <div className="flex items-center justify-center gap-2 bg-white rounded-full px-4 py-2 shadow-md border border-gray-200">
             <img src={geminiLogo} alt="Google Gemini Logo" style={{ width: 24, height: 24 }} />
             <span className="text-sm font-medium text-gray-700">Powered by Google Gemini</span>
           </div>
