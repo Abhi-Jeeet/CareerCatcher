@@ -36,7 +36,7 @@ export const analyzeResume = async (req, res) => {
 
     // Gemini API
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-    const model = genAI.getGenerativeModel({ model: "models/gemini-1.5-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
     // Optimized, concise prompt
     const prompt = `Analyze this resume for the role of ${req.body.role}.

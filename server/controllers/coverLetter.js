@@ -68,7 +68,7 @@ export const generateCoverLetter = async (req, res) => {
 
         // Generate cover letter using Gemini
         const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-        const model = genAI.getGenerativeModel({ model: "models/gemini-1.5-flash" });
+        const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
         const prompt = `You are a professional cover letter writer. Write ONLY the body of a compelling, professional cover letter (do not include any header or salutation). Use proper paragraph structure (not a single block of text). Use the following information to tailor the letter for the job application. Highlight relevant skills and experiences from the resume, show enthusiasm for the specific role and company, keep it concise but comprehensive (300-500 words), use a professional tone, and mention the specific company name, job title, and job ID. Do NOT repeat the header info in the body.\n\nCompany Name: ${companyName}\nJob Title: ${jobTitle}\nJob ID: ${jobId}\n\nResume Content:\n${resumeText}\n\nCover Letter Body:`;
         console.time('geminiAPI');
         const result = await model.generateContent(prompt);
